@@ -1,11 +1,19 @@
 import './App.css';
-import Playground from './pages/Playground';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import Landing from './pages/Landing';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div>
-      <Playground />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
