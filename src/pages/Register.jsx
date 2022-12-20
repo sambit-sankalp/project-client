@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../slices/auth/registerSlice';
 
 const Register = () => {
-  const notify = () =>
-    toast.custom(
-      (t) => (
-        <div
-          className={`w-full h-[5rem] bg-green-400 flex justify-start items-center rounded-lg my-3 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 relative transition-all duration-500 ease-in-out ${
-            t.visible ? 'bottom-5' : '-bottom-96'
-          }`}
-        >
-          <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
-            Congratulations!!! Account created.
-          </h4>
-        </div>
-      ),
-      { id: 'unique-notification', position: 'bottom-center' }
-    );
+  const [user, setUser] = useState({
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(register(user));
+  };
+
+  const dispatch = useDispatch();
+  const result = useSelector((state) => state.register);
+
+  useEffect(() => {
+    if (localStorage.getItem('userInfo')) {
+      window.location.href = '/home';
+    }
+    if (result.success) {
+      toast.custom(
+        (t) => (
+          <div
+            className={`w-full h-[5rem] bg-green-400 flex justify-start items-center rounded-lg my-3 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 relative transition-all duration-500 ease-in-out ${
+              t.visible ? 'bottom-5' : '-bottom-96'
+            }`}
+          >
+            <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
+              Congratulations!!! Account created.
+            </h4>
+          </div>
+        ),
+        { id: 'unique-notification', position: 'bottom-center' }
+      );
+      window.location.href = '/login';
+    }
+  }, [result]);
+
   return (
     <div class="w-full p-4 bg-white">
       <FontAwesomeIcon icon={faChevronLeft} />
@@ -42,6 +67,7 @@ const Register = () => {
               type="text"
               name="name"
               id="name"
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
               className=" bg-gray-100 my-1 font-epilogue text-gray-900 text-sm rounded-lg w-full p-2.5"
               placeholder="Type your name here"
               required
@@ -58,6 +84,7 @@ const Register = () => {
               type="text"
               name="username"
               id="username"
+              onChange={(e) => setUser({ ...user, username: e.target.value })}
               className="bg-gray-100 font-light font-epilogue text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Type your username here"
               required
@@ -74,6 +101,7 @@ const Register = () => {
               type="email"
               name="email"
               id="email"
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
               className="bg-gray-100 font-light font-epilogue text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Type your email here"
               required
@@ -90,6 +118,7 @@ const Register = () => {
               type="password"
               name="password"
               id="password"
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Type your password here"
               className="bg-gray-100 my-1 font-epilogue text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
@@ -98,7 +127,7 @@ const Register = () => {
         </div>
         <button
           type="submit"
-          onClick={notify}
+          onClick={handleSubmit}
           className="w-full text-white font-epilogue shadow-xl font-bold bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Register

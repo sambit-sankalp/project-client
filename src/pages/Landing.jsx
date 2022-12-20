@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Landing = () => {
+  useEffect(() => {
+    if (localStorage.getItem('userInfo')) {
+      window.location.href = '/home';
+    }
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center p-3">
       <div className="flex flex-col justify-center items-center h-[80vh]">
