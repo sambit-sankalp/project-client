@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   loading: false,
-  games: [],
+  game: [],
   success: false,
   error: '',
 };
@@ -19,6 +19,8 @@ export const createGame = createAsyncThunk(
       player: email,
       createdBy: JSON.parse(localStorage.getItem('userInfo')).email,
     });
+
+    console.log(data);
     return data;
   }
 );
@@ -33,13 +35,13 @@ const createGameSlice = createSlice({
       })
       .addCase(createGame.fulfilled, (state, action) => {
         state.loading = false;
-        state.games = action.payload;
+        state.game = action.payload;
         state.success = true;
         state.error = '';
       })
       .addCase(createGame.rejected, (state, action) => {
         state.loading = false;
-        state.games = [];
+        state.game = [];
         state.success = false;
         state.error = action.error.message;
       });

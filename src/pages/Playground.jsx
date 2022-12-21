@@ -3,7 +3,7 @@ import Game from '../components/Playground/Game';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGameByID } from '../slices/games/getGameByIdSlice';
 import Loader from '../components/Loader';
@@ -39,7 +39,9 @@ const Playground = () => {
 
   return (
     <div className="w-full p-3 bg-white">
-      <FontAwesomeIcon icon={faChevronLeft} />
+      <Link to="/home">
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </Link>
       {loading ? (
         <Loader />
       ) : error ? (

@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const getGames = createAsyncThunk('games/getGames', async (email) => {
-  const { data } = await axios.post('http://localhost:5000/api/game/getGames', {
+  const { data } = await axios.post('https://sambittictactoeserver.onrender.com/api/game/getGames', {
     email,
   });
   

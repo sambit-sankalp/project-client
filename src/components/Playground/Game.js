@@ -20,8 +20,6 @@ const Game = ({ friendName }) => {
 
   const result = useSelector((state) => state.updateGame);
 
-  console.log(game);
-
   useEffect(() => {
     if (game) {
       setHistory(game.history);
@@ -63,10 +61,6 @@ const Game = ({ friendName }) => {
     );
     if (result) window.location.reload();
   };
-
-  console.log(
-    JSON.parse(localStorage.getItem('userInfo')).email !== game.createdBy
-  );
 
   const winnerName =
     winner === 'X'

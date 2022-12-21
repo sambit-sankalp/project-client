@@ -5,7 +5,8 @@ import { getUser } from '../slices/auth/getUserSlice';
 import Loader from './Loader';
 
 const Card = ({ game }) => {
-  const { player, createdBy, createdAt, xIsNext, _id } = game;
+  const { player, createdBy, updatedAt, xIsNext, _id, isCompleted, winner } =
+    game;
 
   const requiredEmail =
     JSON.parse(localStorage.getItem('userInfo')).email === createdBy
@@ -19,6 +20,15 @@ const Card = ({ game }) => {
   useEffect(() => {
     dispatch(getUser(requiredEmail));
   }, [requiredEmail, dispatch]);
+
+  const winnerName =
+    winner === 'X'
+      ? JSON.parse(localStorage.getItem('userInfo')).email === game.createdBy
+        ? 'You'
+        : user.name
+      : JSON.parse(localStorage.getItem('userInfo')).email !== game.createdBy
+      ? 'You'
+      : user.name;
 
   return (
     <>
@@ -35,33 +45,42 @@ const Card = ({ game }) => {
               </h5>
             </a>
             <p className="mb-3 text-xm font-normal font-epilogue text-gray-700 dark:text-gray-400">
-              {xIsNext
-                ? createdBy ===
-                  JSON.parse(localStorage.getItem('userInfo')).email
+              {game &&
+                (isCompleted
+                  ? winner === ''
+                    ? 'Its a DRAW'
+                    : `${winnerName} WON`
+                  : xIsNext
+                  ? createdBy ===
+                    JSON.parse(localStorage.getItem('userInfo')).email
+                    ? `${user.name} just made their move! It’s your turn to play now.`
+                    : 'You’ve made your move! Waiting for them.'
+                  : createdBy !==
+                    JSON.parse(localStorage.getItem('userInfo')).email
                   ? `${user.name} just made their move! It’s your turn to play now.`
-                  : 'You’ve made your move! Waiting for them.'
-                : createdBy !==
-                  JSON.parse(localStorage.getItem('userInfo')).email
-                ? `${user.name} just made their move! It’s your turn to play now.`
-                : 'You’ve made your move! Waiting for them.'}
+                  : 'You’ve made your move! Waiting for them.')}
             </p>
             <p className="mb-3 text-xs font-normal font-epilogue text-gray-700 dark:text-gray-400">
-              {new Date(createdAt).toLocaleString()}
+              {new Date(updatedAt).toLocaleString()}
             </p>
             <Link className="w-full" to={`/home/play/${_id}`}>
               <button
                 type="submit"
                 className="w-full text-white font-epilogue shadow-xl font-bold bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                {xIsNext
-                  ? createdBy ===
-                    JSON.parse(localStorage.getItem('userInfo')).email
+                {game &&
+                  (isCompleted
+                    ? 'View Game'
+                    : xIsNext
+                    ? createdBy ===
+                      JSON.parse(localStorage.getItem('userInfo')).email
+                      ? `Play`
+                      : 'View Game'
+                    : createdBy !==
+                      JSON.parse(localStorage.getItem('userInfo')).email
                     ? `Play`
-                    : 'View Game'
-                  : createdBy !==
-                    JSON.parse(localStorage.getItem('userInfo')).email
-                  ? `Play`
-                  : 'View Game'}
+                    : 'View Game')}
+                {}
               </button>
             </Link>
           </div>

@@ -9,7 +9,7 @@ const initialState = {
 
 export const getGameByID = createAsyncThunk('games/getGame', async (id) => {
   const { data } = await axios.get(
-    `http://localhost:5000/api/game/${id}`
+    `https://sambittictactoeserver.onrender.com/api/game/${id}`
   );
   return data;
 });

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../slices/auth/registerSlice';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -47,7 +48,9 @@ const Register = () => {
 
   return (
     <div class="w-full p-4 bg-white">
-      <FontAwesomeIcon icon={faChevronLeft} />
+      <Link to="/">
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </Link>
       <form className="mt-10 w-full h-[85vh] flex justify-between items-start flex-col">
         <div className="w-full">
           <h5 className="font-extrabold font-epilogue text-sm text-gray-900 dark:text-white">

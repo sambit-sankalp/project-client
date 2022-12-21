@@ -20,7 +20,7 @@ export const updateGame = createAsyncThunk('games/updateGame', async (game) => {
   } = game;
 
   const { data } = await axios.put(
-    `http://localhost:5000/api/game/update/${id}`,
+    `https://sambittictactoeserver.onrender.com/api/game/update/${id}`,
     {
       stepnumber,
       history,

@@ -17,7 +17,7 @@ export const login = createAsyncThunk('user/login', async (user) => {
   };
 
   const { data } = await axios.post(
-    'http://localhost:5000/api/user/signin',
+    'https://sambittictactoeserver.onrender.com/api/user/signin',
     { username, password },
     config
   );

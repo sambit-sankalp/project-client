@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const getUser = createAsyncThunk('user/getUser', async (email) => {
-  const { data } = await axios.post('http://localhost:5000/api/user/getUser', {
+  const { data } = await axios.post('https://sambittictactoeserver.onrender.com/api/user/getUser', {
     email,
   });
 
