@@ -5,6 +5,8 @@ import Landing from './pages/Landing';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Playground from './pages/Playground';
+import Home from './pages/Home';
+import GameDetails from './pages/GameDetails';
 
 function App() {
   return (
@@ -13,7 +15,9 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Playground />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/home/details" element={<GameDetails />} />
+        <Route path="/home/playground" element={<Playground />} />
       </Routes>
     </BrowserRouter>
   );

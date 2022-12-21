@@ -41,10 +41,6 @@ input::placeholder {
     font-weight: 400;
 }
 
-h1 {
-  margin: 2rem;
-}
-
 .board {
   background: #FFE79E;
   width: 300px;
@@ -52,10 +48,6 @@ h1 {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   gap: 5px;
-}
-
-h3 {
-  padding: 1rem;
 }
 
 li {
