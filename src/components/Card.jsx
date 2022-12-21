@@ -6,7 +6,6 @@ import Loader from './Loader';
 
 const Card = ({ game }) => {
   const { player, createdBy, createdAt, xIsNext, _id } = game;
-  console.log(player, createdBy, createdAt, xIsNext, _id);
 
   const requiredEmail =
     JSON.parse(localStorage.getItem('userInfo')).email === createdBy
@@ -16,8 +15,6 @@ const Card = ({ game }) => {
   const dispatch = useDispatch();
   const result = useSelector((state) => state.getUser);
   const { loading, error, user } = result;
-
-  console.log(user);
 
   useEffect(() => {
     dispatch(getUser(requiredEmail));

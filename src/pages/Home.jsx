@@ -13,8 +13,6 @@ const Home = () => {
 
   const email = JSON.parse(localStorage.getItem('userInfo')).email;
 
-  console.log(games);
-
   useEffect(() => {
     dispatch(getGames(email));
   }, [email, dispatch]);

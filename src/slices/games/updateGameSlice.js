@@ -7,8 +7,9 @@ const initialState = {
   error: '',
 };
 
-export const updateGame = createAsyncThunk('games/createGame', async (game) => {
+export const updateGame = createAsyncThunk('games/updateGame', async (game) => {
   const {
+    id,
     stepnumber,
     history,
     xIsNext,
@@ -18,37 +19,40 @@ export const updateGame = createAsyncThunk('games/createGame', async (game) => {
     createdBy,
   } = game;
 
-  const { data } = await axios.post('http://localhost:5000/api/game/create', {
-    stepnumber,
-    history,
-    xIsNext,
-    winner,
-    isCompleted,
-    player,
-    createdBy,
-  });
+  const { data } = await axios.put(
+    `http://localhost:5000/api/game/update/${id}`,
+    {
+      stepnumber,
+      history,
+      xIsNext,
+      winner,
+      isCompleted,
+      player,
+      createdBy,
+    }
+  );
   return data;
 });
 
 const updateGameSlice = createSlice({
-    name: 'updateGame',
-    initialState,
-    extraReducers: (builder) => {
-        builder
-            .addCase(updateGame.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(updateGame.fulfilled, (state, action) => {
-                state.loading = false;
-                state.games = action.payload;
-                state.error = '';
-            })
-            .addCase(updateGame.rejected, (state, action) => {
-                state.loading = false;
-                state.games = [];
-                state.error = action.error.message;
-            });
-    },
+  name: 'updateGame',
+  initialState,
+  extraReducers: (builder) => {
+    builder
+      .addCase(updateGame.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateGame.fulfilled, (state, action) => {
+        state.loading = false;
+        state.games = action.payload;
+        state.error = '';
+      })
+      .addCase(updateGame.rejected, (state, action) => {
+        state.loading = false;
+        state.games = [];
+        state.error = action.error.message;
+      });
+  },
 });
 
 export default updateGameSlice.reducer;

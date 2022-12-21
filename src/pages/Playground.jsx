@@ -55,17 +55,15 @@ const Playground = () => {
             </h5>
             <img
               className="w-10 h-10 m-2"
-              src="https://res.cloudinary.com/sambitsankalp/image/upload/v1671540910/x_uuo5tv.png"
+              src={
+                JSON.parse(localStorage.getItem('userInfo')).email === createdBy
+                  ? 'https://res.cloudinary.com/sambitsankalp/image/upload/v1671540910/x_uuo5tv.png'
+                  : 'https://res.cloudinary.com/sambitsankalp/image/upload/v1671540910/o_nui4sv.png'
+              }
               alt="X"
             />
 
-            <Game />
-            <button
-              type="submit"
-              className="w-full mt-7 text-white font-epilogue shadow-xl font-bold bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center"
-            >
-              Submit
-            </button>
+            {game && <Game friendName={user?.name} />}
           </>
         )
       )}
