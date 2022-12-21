@@ -4,6 +4,8 @@ import Board from './Board';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGame } from '../../slices/games/updateGameSlice';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 
 const Game = ({ friendName }) => {
   const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -43,6 +45,11 @@ const Game = ({ friendName }) => {
     setStepNumber(historyPoint.length);
   };
 
+  const handleRefresh = (e) => {
+    e.preventDefault();
+    window.location.reload();
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSelected(false);
@@ -73,6 +80,18 @@ const Game = ({ friendName }) => {
 
   return (
     <div className="flex justify-center items-center flex-col mt-7">
+      {selected && (
+        <div
+          onClick={handleRefresh}
+          className="flex w-full justify-center items-end flex-col mb-4 mr-4"
+        >
+          <FontAwesomeIcon
+            icon={faRotateLeft}
+            className="w-[1.5rem] h-[1.5rem]"
+          />
+        </div>
+      )}
+
       <div className="h-[3rem] w-[300px] bg-[#FFE79E] flex justify-center items-center">
         <p className="text-black text-sm font-epilogue">
           {game &&
