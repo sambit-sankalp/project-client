@@ -17,7 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home/details" element={<GameDetails />} />
-        <Route path="/home/playground" element={<Playground />} />
+        <Route path="/home/play/:id" element={<Playground />} />
       </Routes>
     </BrowserRouter>
   );

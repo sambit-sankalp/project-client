@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { createGame } from '../slices/games/createGameslice';
 
 const GameDetails = () => {
   const [email, setemail] = useState('');
 
+  const dispatch = useDispatch();
+  const result = useSelector((state) => state.createGame);
+  const { loading, error, success, game } = result;
+
+  console.log(game, loading, error, success);
+
+  useEffect(() => {
+    if (success) window.location.href = `/home/play/${game._id}`;
+  }, [success, game]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
-    window.location.href = '/home/playground';
+    dispatch(createGame(email));
   };
 
   return (
