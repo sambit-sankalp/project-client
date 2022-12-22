@@ -17,7 +17,7 @@ export const register = createAsyncThunk('user/register', async (user) => {
   };
 
   const { data } = await axios.post(
-    'https://sambittictactoeserver.onrender.com/api/user/signup',
+    'http://localhost:5000/api/user/signup',
     { name, username, email, password },
     config
   );

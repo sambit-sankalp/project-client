@@ -17,11 +17,16 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('submit');
     dispatch(register(user));
   };
 
+  console.log(user);
+
   const dispatch = useDispatch();
   const result = useSelector((state) => state.register);
+
+  console.log(result);
 
   useEffect(() => {
     if (localStorage.getItem('userInfo')) {
@@ -43,6 +48,23 @@ const Register = () => {
         { id: 'unique-notification', position: 'bottom-center' }
       );
       window.location.href = '/login';
+    }
+
+    if (result.success === false && result.error !== '') {
+      toast.custom(
+        (t) => (
+          <div
+            className={`w-full h-[5rem] bg-[#EB5757] flex justify-start items-center rounded-lg my-3 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 relative transition-all duration-500 ease-in-out ${
+              t.visible ? 'bottom-5' : '-bottom-96'
+            }`}
+          >
+            <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
+              Username or email already exists.
+            </h4>
+          </div>
+        ),
+        { id: 'unique-notification', position: 'bottom-center' }
+      );
     }
   }, [result]);
 
