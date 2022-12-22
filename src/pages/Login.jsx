@@ -21,8 +21,6 @@ const Login = () => {
     dispatch(login(user));
   };
 
-  console.log(result);
-
   useEffect(() => {
     if (localStorage.getItem('userInfo')) {
       window.location.href = '/home';

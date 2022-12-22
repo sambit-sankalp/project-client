@@ -11,7 +11,7 @@ const initialState = {
 export const createGame = createAsyncThunk(
   'games/createGame',
   async (email) => {
-    const { data } = await axios.post('http://localhost:5000/api/game/create', {
+    const { data } = await axios.post('https://sambittictactoeserver.onrender.com/api/game/create', {
       stepnumber: 0,
       history: Array(9).fill(null),
       xIsNext: true,
@@ -19,8 +19,6 @@ export const createGame = createAsyncThunk(
       player: email,
       createdBy: JSON.parse(localStorage.getItem('userInfo')).email,
     });
-
-    console.log(data);
     return data;
   }
 );

@@ -5,19 +5,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGame } from '../slices/games/createGameslice';
 import { Link } from 'react-router-dom';
+import { toast, Toaster } from 'react-hot-toast';
 
 const GameDetails = () => {
   const [email, setemail] = useState('');
 
   const dispatch = useDispatch();
   const result = useSelector((state) => state.createGame);
-  const { loading, error, success, game } = result;
-
-  console.log(game, loading, error, success);
+  const { error, success, game } = result;
 
   useEffect(() => {
     if (success) window.location.href = `/home/play/${game._id}`;
-  }, [success, game]);
+
+    if (success === false && error) {
+      toast.custom(
+        (t) => (
+          <div
+            className={`w-full h-[5rem] bg-[#EB5757] flex justify-start items-center rounded-lg my-3 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 relative transition-all duration-500 ease-in-out ${
+              t.visible ? 'bottom-5' : '-bottom-96'
+            }`}
+          >
+            <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
+              Already a game running.
+            </h4>
+          </div>
+        ),
+        { id: 'unique-notification', position: 'bottom-center' }
+      );
+    }
+  }, [success, game, error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +41,7 @@ const GameDetails = () => {
   };
 
   return (
-    <div class="w-full p-4 bg-white">
+    <div className="w-full p-4 bg-white">
       <Link to="/home">
         <FontAwesomeIcon icon={faChevronLeft} />
       </Link>
@@ -34,12 +50,12 @@ const GameDetails = () => {
           <h5 className="font-extrabold font-epilogue text-sm text-gray-900 dark:text-white">
             Start a new game
           </h5>
-          <h5 class="mt-2 font-extrabold font-epilogue text-3xl w-11/12 text-gray-900 dark:text-white">
+          <h5 className="mt-2 font-extrabold font-epilogue text-3xl w-11/12 text-gray-900 dark:text-white">
             Whom do you want to play with?
           </h5>
-          <div class="mt-4">
+          <div className="mt-4">
             <label
-              for="email"
+              htmlFor="email"
               className="block my-1 font-bold font-epilogue text-sm text-gray-900"
             >
               Email
@@ -62,6 +78,7 @@ const GameDetails = () => {
         >
           Start Game
         </button>
+        <Toaster />
       </form>
     </div>
   );
