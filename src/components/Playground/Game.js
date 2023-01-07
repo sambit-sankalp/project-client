@@ -10,7 +10,7 @@ const Game = ({ friendName }) => {
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXisNext] = useState(true);
   const [selected, setSelected] = useState(false);
-  const winner = calculateWinner(history[stepNumber]);
+  const [winner, setWinner] = useState('');
   const xO = xIsNext ? 'X' : 'O';
 
   const dispatch = useDispatch();
@@ -25,23 +25,23 @@ const Game = ({ friendName }) => {
       setHistory(game.history);
       setStepNumber(game.stepnumber);
       setXisNext(game.xIsNext);
+      setWinner(game.winner);
     }
   }, [game, result]);
 
   const handleClick = (i) => {
-    if (selected) return;
     if (
       (xIsNext &&
         JSON.parse(localStorage.getItem('userInfo')).email !==
-          game.createdBy) ||
+          game.createdBy.email) ||
       (!xIsNext &&
-        JSON.parse(localStorage.getItem('userInfo')).email === game.createdBy)
+        JSON.parse(localStorage.getItem('userInfo')).email ===
+          game.createdBy.email)
     )
       return;
 
-    setSelected(true);
     const historyPoint = history.slice(0, stepNumber + 1);
-    const current = historyPoint[stepNumber];
+    const current = historyPoint[selected ? stepNumber - 1 : stepNumber];
     const squares = [...current];
 
     if (winner || squares[i] === 'X' || squares[i] === 'O')
@@ -49,13 +49,16 @@ const Game = ({ friendName }) => {
       return;
     // select square
     squares[i] = xO;
-    setHistory([...historyPoint, squares]);
-    setStepNumber(historyPoint.length);
+    setHistory((prev) =>
+      selected ? [...prev.slice(0, -1), squares] : [...prev, squares]
+    );
+    setStepNumber((prev) => (selected ? prev : prev + 1));
+    setWinner(calculateWinner(squares));
+    setSelected(true);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSelected(false);
     dispatch(
       updateGame({
         id: game._id,
@@ -74,12 +77,16 @@ const Game = ({ friendName }) => {
 
   const winnerName =
     winner === 'X'
-      ? JSON.parse(localStorage.getItem('userInfo')).email === game.createdBy
+      ? JSON.parse(localStorage.getItem('userInfo')).email ===
+        game.createdBy.email
         ? 'You'
         : friendName
-      : JSON.parse(localStorage.getItem('userInfo')).email !== game.createdBy
+      : JSON.parse(localStorage.getItem('userInfo')).email !==
+        game.createdBy.email
       ? 'You'
       : friendName;
+
+  console.log(history, stepNumber);
 
   return (
     <div className="flex justify-center items-center flex-col mt-7">
@@ -87,16 +94,16 @@ const Game = ({ friendName }) => {
         <p className="text-black text-sm font-epilogue">
           {game &&
             (game.isCompleted
-              ? winner === ''
+              ? winnerName === ''
                 ? 'Its a DRAW'
                 : `${winnerName} WON`
               : xIsNext
               ? JSON.parse(localStorage.getItem('userInfo')).email ===
-                game.createdBy
+                game.createdBy.email
                 ? 'Your Move'
                 : 'Their Move'
               : JSON.parse(localStorage.getItem('userInfo')).email !==
-                game.createdBy
+                game.createdBy.email
               ? 'Your Move'
               : 'Their Move')}
         </p>
@@ -113,7 +120,7 @@ const Game = ({ friendName }) => {
           </button>
         </Link>
       ) : xIsNext ? (
-        game.createdBy ===
+        game.createdBy.email ===
         JSON.parse(localStorage.getItem('userInfo')).email ? (
           <button
             type="submit"
@@ -131,7 +138,7 @@ const Game = ({ friendName }) => {
             Waiting for Opponent
           </button>
         )
-      ) : game.createdBy !==
+      ) : game.createdBy.email !==
         JSON.parse(localStorage.getItem('userInfo')).email ? (
         <button
           type="submit"

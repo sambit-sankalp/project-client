@@ -7,7 +7,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGameByID } from '../slices/games/getGameByIdSlice';
 import Loader from '../components/Loader';
-import { getUser } from '../slices/auth/getUserSlice';
 
 const Playground = () => {
   const { id } = useParams();
@@ -23,19 +22,6 @@ const Playground = () => {
     dispatch(getGameByID(id));
   }, [dispatch, id]);
 
-  useEffect(() => {
-    if (createdBy && player) {
-      const friendEmail =
-        JSON.parse(localStorage.getItem('userInfo')).email === createdBy
-          ? player
-          : createdBy;
-
-      dispatch(getUser(friendEmail));
-    }
-  }, [createdBy, dispatch, player]);
-
-  const userResult = useSelector((state) => state.getUser);
-  const { user } = userResult;
 
   return (
     <div className="w-full p-3 bg-white">
@@ -47,10 +33,14 @@ const Playground = () => {
       ) : error ? (
         <p>{error}</p>
       ) : (
-        game && (
+        game && createdBy && player && (
           <>
             <h5 className="mt-6 font-bold font-epilogue text-2xl text-gray-900 dark:text-white">
-              Game with {user?.name}
+              Game with{' '}
+              {JSON.parse(localStorage.getItem('userInfo')).email ===
+              createdBy.email
+                ? player.name
+                : createdBy.name}
             </h5>
             <h5 className="font-normal mt-2 font-epilogue text-sm text-gray-900 dark:text-white">
               Your Piece
@@ -58,14 +48,24 @@ const Playground = () => {
             <img
               className="w-10 h-10 m-2"
               src={
-                JSON.parse(localStorage.getItem('userInfo')).email === createdBy
+                JSON.parse(localStorage.getItem('userInfo')).email ===
+                createdBy.email
                   ? 'https://res.cloudinary.com/sambitsankalp/image/upload/v1671540910/x_uuo5tv.png'
                   : 'https://res.cloudinary.com/sambitsankalp/image/upload/v1671540910/o_nui4sv.png'
               }
               alt="X"
             />
 
-            {game && <Game friendName={user?.name} />}
+            {game && (
+              <Game
+                friendName={
+                  JSON.parse(localStorage.getItem('userInfo')).email ===
+                  createdBy.email
+                    ? player.name
+                    : createdBy.name
+                }
+              />
+            )}
           </>
         )
       )}

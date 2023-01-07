@@ -17,16 +17,11 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
     dispatch(register(user));
   };
 
-  console.log(user);
-
   const dispatch = useDispatch();
   const result = useSelector((state) => state.register);
-
-  console.log(result);
 
   useEffect(() => {
     if (localStorage.getItem('userInfo')) {

@@ -12,10 +12,37 @@ const GameDetails = () => {
 
   const dispatch = useDispatch();
   const result = useSelector((state) => state.createGame);
-  const { error, success, game } = result;
+  const { error, success, game: data } = result;
+
+  const { existing, game } = data;
 
   useEffect(() => {
-    if (success) window.location.href = `/home/play/${game._id}`;
+    if (success && existing === false)
+      window.location.href = `/home/play/${game._id}`;
+
+    if (success === true && existing === true) {
+      toast.custom(
+        (t) => (
+          <div
+            className={`w-full h-[5rem] bg-[#EB5757] flex justify-start items-center rounded-lg my-3 shadow-2xl hover:shadow-none transform-gpu translate-y-0 hover:translate-y-1 relative transition-all duration-500 ease-in-out ${
+              t.visible ? 'bottom-5' : '-bottom-96'
+            }`}
+          >
+            <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
+              Already a game running. Click{' '}
+              <Link
+                style={{ textDecoration: 'underline' }}
+                to={`/home/play/${game._id}`}
+              >
+                link
+              </Link>{' '}
+              to join.
+            </h4>
+          </div>
+        ),
+        { id: 'unique-notification', position: 'bottom-center' }
+      );
+    }
 
     if (success === false && error) {
       toast.custom(
@@ -26,14 +53,14 @@ const GameDetails = () => {
             }`}
           >
             <h4 className="w-full text-white text-sm font-epilogue font-normal ml-3">
-              Already a game running.
+              Email not found. Please check the email and try again.
             </h4>
           </div>
         ),
         { id: 'unique-notification', position: 'bottom-center' }
       );
     }
-  }, [success, game, error]);
+  }, [success, game, error, existing]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

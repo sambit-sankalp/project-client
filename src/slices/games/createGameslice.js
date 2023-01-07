@@ -16,8 +16,8 @@ export const createGame = createAsyncThunk(
       history: Array(9).fill(null),
       xIsNext: true,
       isCompleted: false,
-      player: email,
-      createdBy: JSON.parse(localStorage.getItem('userInfo')).email,
+      playerEmail: email,
+      createdByEmail: JSON.parse(localStorage.getItem('userInfo')).email,
     });
     return data;
   }
