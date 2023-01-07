@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { cacheVariables } from '../../utils/cacheConstants';
 
 const initialState = {
   loading: false,
@@ -16,11 +17,20 @@ export const register = createAsyncThunk('user/register', async (user) => {
     },
   };
 
+  let isCacheSupported = 'caches' in window;
+
   const { data } = await axios.post(
     'https://sambittictactoeserver.onrender.com/api/user/signup',
     { name, username, email, password },
     config
   );
+
+  if (isCacheSupported) {
+    caches.open(cacheVariables.cacheName).then(function (cache) {
+      cache.put(cacheVariables.cacheURL, new Response(JSON.stringify(data)));
+    });
+  }
+
   localStorage.setItem('userInfo', JSON.stringify(data));
   return data;
 });
