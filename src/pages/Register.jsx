@@ -78,7 +78,7 @@ const Register = () => {
           </h5>
           <div className="mt-8">
             <label
-              for="name"
+              htmlFor="name"
               className="font-epilogue font-bold my-2 text-sm text-gray-900 dark:text-white"
             >
               Your name
@@ -95,7 +95,7 @@ const Register = () => {
           </div>
           <div class="mt-4">
             <label
-              for="username"
+              htmlFor="username"
               className="block my-1 font-bold font-epilogue text-sm text-gray-900"
             >
               Username
@@ -112,7 +112,7 @@ const Register = () => {
           </div>
           <div class="mt-4">
             <label
-              for="email"
+              htmlFor="email"
               className="block my-1 font-bold font-epilogue text-sm text-gray-900"
             >
               Email
@@ -129,7 +129,7 @@ const Register = () => {
           </div>
           <div className="mt-4">
             <label
-              for="password"
+              htmlFor="password"
               className="block mb-2 font-bold text-sm font-epilogue text-gray-900 dark:text-white"
             >
               Password

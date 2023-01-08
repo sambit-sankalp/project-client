@@ -19,6 +19,7 @@ const Game = ({ friendName }) => {
   const { game } = gameDetails;
 
   const result = useSelector((state) => state.updateGame);
+  const { success } = result;
 
   useEffect(() => {
     if (game) {
@@ -27,7 +28,13 @@ const Game = ({ friendName }) => {
       setXisNext(game.xIsNext);
       setWinner(game.winner);
     }
-  }, [game, result]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (success) window.location.reload();
+  }, [success]);
+
 
   const handleClick = (i) => {
     if (
@@ -44,7 +51,7 @@ const Game = ({ friendName }) => {
     const current = historyPoint[selected ? stepNumber - 1 : stepNumber];
     const squares = [...current];
 
-    if (winner || squares[i] === 'X' || squares[i] === 'O')
+    if (squares[i] === 'X' || squares[i] === 'O')
       // return if won or occupied
       return;
     // select square
@@ -72,7 +79,7 @@ const Game = ({ friendName }) => {
         createdBy: game.createdBy,
       })
     );
-    if (result) window.location.reload();
+    // if (success) window.location.reload();
   };
 
   const winnerName =
@@ -86,7 +93,6 @@ const Game = ({ friendName }) => {
       ? 'You'
       : friendName;
 
-  console.log(history, stepNumber);
 
   return (
     <div className="flex justify-center items-center flex-col mt-7">

@@ -47,7 +47,7 @@ const Login = () => {
   }, [result]);
 
   return (
-    <div class="w-full p-4 bg-white">
+    <div className="w-full p-4 bg-white">
       <Link to="/">
         <FontAwesomeIcon icon={faChevronLeft} />
       </Link>
@@ -56,12 +56,12 @@ const Login = () => {
           <h5 className="font-extrabold font-epilogue text-sm text-gray-900 dark:text-white">
             Login
           </h5>
-          <h5 class="mt-2 font-extrabold font-epilogue text-3xl w-11/12 text-gray-900 dark:text-white">
+          <h5 className="mt-2 font-extrabold font-epilogue text-3xl w-11/12 text-gray-900 dark:text-white">
             Please enter your details
           </h5>
-          <div class="mt-4">
+          <div className="mt-4">
             <label
-              for="username"
+              htmlFor="username"
               className="block my-1 font-bold font-epilogue text-sm text-gray-900"
             >
               Username
@@ -78,7 +78,7 @@ const Login = () => {
           </div>
           <div className="mt-4">
             <label
-              for="password"
+              htmlFor="password"
               className="block mb-2 font-bold text-sm font-epilogue text-gray-900 dark:text-white"
             >
               Password

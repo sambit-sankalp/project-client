@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   loading: false,
+  success: false,
   games: [],
   error: '',
 };
@@ -41,14 +42,17 @@ const updateGameSlice = createSlice({
     builder
       .addCase(updateGame.pending, (state) => {
         state.loading = true;
+        state.success = false;
       })
       .addCase(updateGame.fulfilled, (state, action) => {
         state.loading = false;
         state.games = action.payload;
+        state.success = true;
         state.error = '';
       })
       .addCase(updateGame.rejected, (state, action) => {
         state.loading = false;
+        state.success = false;
         state.games = [];
         state.error = action.error.message;
       });
